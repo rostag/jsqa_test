@@ -7,8 +7,8 @@
  * 	    Параметри та області видимості - parameters and scopes
  * 	    Вкладена область видимости - nested scope
  * 	    Стек викликів - call stack
- * 	    Замикання - Closure
  * 	    Функції і побічні ефекти
+ * 		Замикання
  * 
  * 		node src/app/lessons/06/l-06.js
  */
