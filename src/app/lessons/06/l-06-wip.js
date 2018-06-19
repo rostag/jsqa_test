@@ -39,7 +39,6 @@ const glo = 'glo site';
     console.s();
     console.log('hello');
 
-
     console.h1('Check arguments and use stop-pattern for exit');
 
     function calcWithCaution(a, b) {

@@ -211,11 +211,17 @@ console.log('\nTask 03.01:');
 // In code above, we created 'lesson' object. Add 'date' property to it, having null value.
 // TODO: write code here
 
+lesson.date = null;
+
 console.log('\nTask 03.02');
 // Task 03.02
 // Points: 3
 // Add getInfo method to the lesson object, it should log lesson info to the console: lesson name, id and date.
 // TODO: write code here
+
+lesson.getInfo = function () {
+    return this.date;
+}
 
 console.log('\nTask 03.03');
 // Task 03.03
@@ -223,6 +229,8 @@ console.log('\nTask 03.03');
 // In code above, we defined the 'student' object. 
 // Add 'birthday' property to it, set it's value to new Date(1991,8,24);
 // TODO: write code here
+
+student.birthday = new Date(1991, 8, 24);
 
 console.log('\nTask 03.04: TODO: Review this file and make sure you understand it.');
 // Task 03.04
