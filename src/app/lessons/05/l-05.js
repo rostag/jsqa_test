@@ -525,9 +525,9 @@ console.log(Function.prototype.isPrototypeOf(Object)); // true: Object.construct
 // ось зразки валідного JSON:
 
 // JSON як об'єкт:
-{
-     "a": "a"
-}
+// {
+//      "a": "a"
+// }
 
 // JSON як масив:
 [

@@ -1,14 +1,13 @@
 /**
- * Les****on 14. 
+ * Le**on 14. Regular expressions.
  */
 
 'use strict';
 
 (function () {
-    // This is relative path
     require('../../util/console');    
 
-    console.h1('Lesson 14');
+    console.h1('Le**on 14. Regular expressions');
 
     function testRegexpOnAString(str, regex) {
         console.log(`\nString: "${str}" RegExp: ${regex}`);
@@ -51,5 +50,46 @@
     testRegexpOnAString('Elections soon are soon.', /Elections|are/);
     
     testRegexpOnAString('Elections are soon, very sooooooon.', /o{1,2}/g);
+
+
+    //
+    // Homework
+    //
+    console.h2('Lesson 14 Homework');
+    console.h3('Homework Task 14.01');
+    // Points: 1
+    // Given is a string:
+    let homeworkOneTaskOne = 'Can JavaScript file contain non-executable code?'
+    // Write a regular expression to match the 'JavaScript' word in the given string.
+    // Log the result to the contsole.
+    // TIP: you don't need any special RegExp characters to complete this task.
+    // TODO: write code here
+
+    console.h3('Homework Task 14.02');
+    // Points: 2
+    // Given is the same string, as in Task 1.
+    // Write a regular expression to match the 'con', and 'cod' in the given string.
+    // Log the result to the contsole.
+    // TIP: you do need a special RegExp character and 'g' flag to complete this task.
+    // TODO: write code here
+
+    console.h3('Homework Task 14.03');
+    // Points: 3
+    // Given is the same string, as in Task 1.
+    // Write a regular expression to match the 'Can', 'con', and 'cod' in the given string.
+    // Log the result to the contsole.
+    // TIP: you may need few special characters, 'g' and 'i' flags.
+    // TODO: write code here
+
+    console.h3('Homework Task 14.04');
+    // Points: 2
+    // Given is a multi-line string:
+    let homeworkTwoTaskOneResult = `Task 02.01: TODO: Review the contents of this file and make sure you understand it.
+    I've reviewed the l-02.js file and I understand it`;
+    // Using String.prototype.match method, find 
+    // the index of the substring 'I've reviewed the l-02.js file and I understand it'
+    // and log the found index to the console.
+    // TIP: you don't need neither special characters nor flags to complete this task
+    // TODO: write code here
 
 }());
