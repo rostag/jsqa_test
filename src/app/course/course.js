@@ -9,6 +9,8 @@
     const config = require('../config/config');
     const c = config.getInstance();
 
+    let loadedConfig = null;
+
     c.loadConfig('lessons.config.json', parseConfig);
 
     startDate = new Date();
@@ -17,7 +19,11 @@
         if (err) {
             console.log(err);
         }
-        console.log('Lessons Config Loaded:', data);
+        loadedConfig = JSON.parse(data);
+        console.log('Lessons config loaded:', loadedConfig);
+
+        loadAndParseAllLessonsAsAText(loadedConfig.lessons);
+        loadAndParseAllLessonsAsAOutput(loadedConfig.lessons);
     }
 
     // LessonFactory
@@ -26,7 +32,7 @@
 
     // Parent Method
     LessonFactory.prototype.execute = function () {
-        console.log('Execute:', this.lessonName);
+        // console.log('Execute:', this.lessonName);
         if (this.tasks) {
             for (let i = 0; i < this.tasks.length; i++) {
                 console.log('Task:', this.tasks[i]);
@@ -40,7 +46,7 @@
         // Error if constructor doesn't exist
         if (typeof LessonFactory[constr] !== "function") {
             throw {
-                name: "Error",
+                name: 'Error',
                 message: constr + " doesn't exist"
             };
         }
@@ -63,104 +69,70 @@
 
     // --------------------------------
 
-
-
-
-
-
-    const lessonIds = ['01'];
-    // const lessonIds = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20'];
-
-    const lessonSolutions = {
-        '01': {
-            '01': 'answer: ye+s',
-            '02': 'use strict;',
-            '03': 'boolean,number,string,null,undefined,symbol'
-        },
-        '02': [ ],
-        '03': [ ],
-        '04': [ ],
-        '05': [ ],
-        '06': [ ],
-        '07': [ ]
-    };
-
-    function loadLessonAsAText(lessonId, callback) {
+    function loadLessonAsAText(lesson, callback) {
+        let lessonId = lesson.lessonId;
         let lessonFilePath = path.join(__dirname, '..', 'lessons', lessonId, 'l-' + lessonId + '.js');
 
         function augmentedCallback(err, data) {
-            callback(err, data, lessonId);
+            callback(err, data, lesson);
         };
 
         fs.readFile(lessonFilePath, 'utf8', augmentedCallback);
     }
 
-    function parseLoadedLessonText(err, lessonText, lessonId) {
-        if (err) {
-            console.log('Error loading file:', err);
-        }
-        // console.log('Loaded Lesson by ID:', lessonId);
-        console.log(`Lesson ${lessonId} Answers: ${lessonSolutions[lessonId]}`);
-        console.log('Loaded Lesson Text:', lessonText);
+    function parseLoadedLessonText(err, lessonText, lesson) {
+        let lessonId = lesson.lessonId;
+        if (err) { console.log('Error loading file:', err); }
 
         function extractTaskById(taskId, nextTaskId) {
-            // let taskStartRegExp = /Task 01\.01/g;
             let taskStartRegExp = new RegExp('Task ' + lessonId + '\.' + taskId, 'g');
-            // let taskEndRegExp = /Task 01\.02/g;
             let taskEndRegExp = new RegExp('Task ' + lessonId + '\.' + nextTaskId, 'g');
                 
             taskStartRegExp.test(lessonText);
             taskEndRegExp.test(lessonText);
 
-            console.log('Start index:', taskStartRegExp.lastIndex);
-            console.log('End index:', taskEndRegExp.lastIndex);
+            console.log('Extract Task by indexes:', taskStartRegExp.lastIndex, taskEndRegExp.lastIndex);
 
             return lessonText.substring(taskStartRegExp.lastIndex, taskEndRegExp.lastIndex);
         }
 
         function checkTaskById(taskId, taskText) {
-            let answerRegExp = new RegExp(lessonSolutions[lessonId][taskId], 'i');
+            let answerRegExp = new RegExp(lesson.tasks[taskId], 'i');
             return answerRegExp.test(taskText)
         }
+
+        const taskText = extractTaskById('01', '02');
         
-        console.log('-------------- Task text: ', extractTaskById('01', '02'));
-        console.log('-------------- Answer matches: ', checkTaskById('01', extractTaskById('01', '02')));
-        
+        console.log('-------------- Answer matches: ', checkTaskById('01', taskText), '\n(Task text:', taskText, '');
     }
 
-    function loadAndParseAllLessonsAsAText() {
-        for (let i = 0; i < lessonIds.length; i++) {
-            loadLessonAsAText(lessonIds[i], parseLoadedLessonText);
+    // Way 1: Parse Lesson's text:
+    function loadAndParseAllLessonsAsAText(lessons) {
+        console.h1('Load and parse all Lessons as a Text');
+        for (let i = 0; i < lessons.length; i++) {
+            loadLessonAsAText(lessons[i], parseLoadedLessonText);
         }
     }
-
-    console.log('-----------------------------------------------')
-
-    loadAndParseAllLessonsAsAText();
-
-
-
-
-
-
-
-
-    // --------------------------------    
     
-    
+    // Way 1: Parse Lesson's output.    
     // Execute lesson to get output:
-    function executeLesson(lessonId, callback) {
+    function executeLesson(lesson, callback) {
+        let lessonId = lesson.lessonId;
         cp.exec('node src/app/lessons/' + lessonId + '/l-' + lessonId + '.js', function(error, stdout, stderr) {
-            callback(stdout);
+            // parseLoadedLessonText(err, lessonText, lesson) {
+            callback(error, stdout, lesson);
         });
     }
     
-    function parseLessonOutput(lessonOutput) {
-        console.log('-----------------------------------------------')
-        console.log('Lesson output:', lessonOutput);
+    function loadAndParseAllLessonsAsAOutput(lessons) {
+        console.h1('Load and parse all Lessons as an Output');
+
+        for (let i = 0; i < lessons.length; i++) {
+            executeLesson(lessons[i], parseLoadedLessonText);
+        }
     }
 
-    executeLesson('02', parseLessonOutput);
+    
     
 
     // --------------------------------
