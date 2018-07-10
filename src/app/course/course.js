@@ -51,7 +51,7 @@
             };
         }
         // Contructor is here, let's inherit 'execute' from parent constructor, but only once
-        if (typeof LessonFactory[constr].prototype.execute !== "function") {
+        if (typeof LessonFactory[constr].prototype.execute !== 'function') {
             LessonFactory[constr].prototype = new LessonFactory();
         }
         // Create new instance
@@ -73,9 +73,9 @@
         let lessonId = lesson.lessonId;
         let lessonFilePath = path.join(__dirname, '..', 'lessons', lessonId, 'l-' + lessonId + '.js');
 
-        function augmentedCallback(err, data) {
-            callback(err, data, lesson);
-        };
+        console.log('\n\nLoad lesson as a text, lessonId =', lessonId, 'lesson file path:', lessonFilePath);
+
+        function augmentedCallback(err, data) { callback(err, data, lesson);};
 
         fs.readFile(lessonFilePath, 'utf8', augmentedCallback);
     }
@@ -108,37 +108,31 @@
 
     // Way 1: Parse Lesson's text:
     function loadAndParseAllLessonsAsAText(lessons) {
+        // return;
         console.h1('Load and parse all Lessons as a Text');
         for (let i = 0; i < lessons.length; i++) {
             loadLessonAsAText(lessons[i], parseLoadedLessonText);
         }
     }
     
-    // Way 1: Parse Lesson's output.    
+    // Way 2: Parse Lesson's output.    
     // Execute lesson to get output:
-    function executeLesson(lesson, callback) {
-        let lessonId = lesson.lessonId;
-        cp.exec('node src/app/lessons/' + lessonId + '/l-' + lessonId + '.js', function(error, stdout, stderr) {
-            // parseLoadedLessonText(err, lessonText, lesson) {
-            callback(error, stdout, lesson);
-        });
-    }
-    
     function loadAndParseAllLessonsAsAOutput(lessons) {
+        return;
         console.h1('Load and parse all Lessons as an Output');
-
         for (let i = 0; i < lessons.length; i++) {
             executeLesson(lessons[i], parseLoadedLessonText);
         }
     }
 
+
+    function executeLesson(lesson, callback) {
+        let lessonId = lesson.lessonId;
+        cp.exec('node src/app/lessons/' + lessonId + '/l-' + lessonId + '.js', function(error, stdout, stderr) {
+            callback(error, stdout, lesson);
+        });
+    }
     
-    
-
-    // --------------------------------
-
-
-
     // Public Module API
     exports.getStartDate = () => startDate;
     exports.createLesson = LessonFactory.factory;
