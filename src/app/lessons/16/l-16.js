@@ -82,4 +82,20 @@
 
     loadAndParseAllLessonsAsAText();
 
+    //
+    // Homework
+    //
+
+    console.h2('Lesson 16 Homework');
+
+    console.h3('Homework Task 16.01. Points: 2');
+    // Update the lessonSolutions array. Add Lesson 01 Task 04 solution to it.
+
+    console.h3('Homework Task 16.02. Points: 3');
+    // Update the lessonSolutions array. Add Lesson 01 Task 05 solution to it.
+
+    console.h3('Homework Task 16.03. Points: 4');
+    // Update the parseLoadedLessonText function. Make it to analyze all Lesson's task, not only the first one.
+
+
 })();
