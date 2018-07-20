@@ -33,7 +33,26 @@
         console.log('Lesson output:', lessonOutput);
     }
 
-    executeLesson('02', parseLessonOutput);
+    // Uncomment to see it in work
+    // executeLesson('02', parseLessonOutput);
 
+    // 
+    // Homework
+    //
+
+    console.h2('Lesson 17 Homework');
+
+    console.h3('Homework Task 17.01. Points: 1');
+    // Review Lesson 17 Slides and complete this sentence:
+    console.log('child_process.spawn returns a ...');
+
+    console.h3('Homework Task 17.02. Points: 1');
+    // Review Lesson 17 Slides and complete this sentence:
+    console.log('child_process.exec returns a ...');
+
+    console.h3('Homework Task 17.03. Points: 3');
+    // Write a function which executes command of your choice in the shell using child_process.exec method.
+    // Output the result to console
+    // TODO: Write code here
 
 })();
